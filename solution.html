@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<!--
+	Alpha by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Cala Software Solution</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" href="./images/code.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1><a href="index.html">Technical blog </a>for Cala</h1>
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="#" class="icon solid fa-angle-down">Cala</a>
+								<ul>
+									<li><a href="generic.html">What does Cala mean?</a></li>
+									<li><a href="./solution.html">Solution</a></li>
+									<li><a href="elements.html">FAQs</a></li>
+									<li>
+										<a href="#">Resources</a>
+										<ul>
+											<li><a href="https://docs.rs/cala-ledger/latest/cala_ledger/" target="_blank" rel="noopener noreferrer">Cala ledger Doc</a></li>
+											<li><a href="https://cala.sh/api-reference.html#introduction" target="_blank" rel="noopener noreferrer">Cala API</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="./index.html#apartado-especifico" class="button">Sign Up</a></li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<section id="main" class="container">
+					<header>
+						<h2>How Cala Ledger Works</h2>
+						<p>You can do it easily.</p>
+					</header>
+					<div class="box">
+						<span class="image featured"><img src="images/rust-03.PNG" alt="" /></span>
+							<div class="row-6 row-12-mobilep">
+								<h4>Initialize Ledger:</h4>
+									<pre>
+let pg_con = "postgres://user:password@localhost:5432/pg";
+let cala_config = CalaLedgerConfig::builder()
+.pg_con(pg_con)
+.exec_migrations(true)
+.build()?;
+let cala = CalaLedger::init(cala_config).await?;																			
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Create a Journal:</h4>
+									<pre>
+let new_journal = NewJournal::builder()
+.id(JOURNAL_ID)
+.name("MAIN JOURNAL")
+.description("the primary journal")
+.build()?;
+let journal = cala.journals().create(new_journal).await?;																								  
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Create Accounts:</h4>
+									<pre>
+let new_account = NewAccount::builder()
+.id(ACCOUNT_ID)
+.name("ASSETS")
+.code("ASSETS")
+.normal_balance_type(DebitOrCredit::Debit)
+.build()?;
+cala.accounts().create(new_account).await?;						  
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Deposit Transaction</h4>
+									<pre>
+code: "DEPOSIT"
+transaction:
+journal_id: "params.journal_id"
+effective: "date()"
+params:
+- name: "assets"
+type: "UUID"
+- name: "recipient"
+type: "UUID"
+- name: "amount"
+type: "DECIMAL"
+entries:
+ - entry_type: "DEPOSIT_DR"
+account_id: "params.assets"
+layer: "SETTLED"
+direction: "CREDIT"
+units: "params.amount"
+currency: "BTC"
+- entry_type: "DEPOSIT_CR"
+account_id: "params.recipient"
+layer: "SETTLED"
+direction: "DEBIT"
+units: "params.amount"
+currency: "BTC"</pre>
+							</div>
+
+							<div class="row-6 row-12-mobilep">
+								<h4>Executing a Deposit in Rust<h4>
+									<pre>
+code: "DEPOSIT"
+transaction:
+journal_id: "params.journal_id"
+effective: "date()"
+params:
+- name: "assets"
+type: "UUID"
+- name: "recipient"
+type: "UUID"
+- name: "amount"
+type: "DECIMAL"
+entries:
+ - entry_type: "DEPOSIT_DR"
+account_id: "params.assets"
+layer: "SETTLED"
+direction: "CREDIT"
+units: "params.amount"
+currency: "BTC"
+- entry_type: "DEPOSIT_CR"
+account_id: "params.recipient"
+layer: "SETTLED"
+direction: "DEBIT"
+units: "params.amount"
+currency: "BTC"</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Key Functionalities:</h4>
+								<p>Transfers:
+Move money between accounts without altering the total assets.
+Defined using templates like deposits.
+Account Sets:
+Group multiple accounts (e.g., track total liabilities).
+Example</p>
+									<pre>
+let new_set = NewAccountSet::builder()
+.id(LIABILITIES_ACCOUNT_SET_ID)
+.name("LIABILITIES")
+.journal_id(JOURNAL_ID)
+.build()?;
+	</pre>
+							</div>
+
+
+
+							<div class="row-6 row-12-mobilep">
+								<h4>Withdrawals:</h4>
+								<p>Mirror deposits but in reverse</p>
+									<pre>
+entries:
+- entry_type: "WITHDRAWAL_DR"
+account_id: "params.sender"
+direction: "DEBIT"
+units: "params.amount"
+- entry_type: "WITHDRAWAL_CR"
+account_id: "params.assets"
+direction: "CREDIT"
+units: "params.amount"									  
+	</pre>
+							</div>
+
+							<div class="row-6 row-12-mobilep">
+								<h4>Atomic Operations:</h4>
+								<p>Combine multiple operations within a single database transaction</p>
+									<pre>
+let mut op = cala.begin_operation().await?;
+let account = cala.accounts().create_in_op(&mut op, new_account).await?;
+op.commit().await?;																		  
+	</pre>
+							</div>
+
+
+<div class="row-6 row-12-mobilep">
+								<h4>Velocity Limits and Controls</h4>
+								<p>Restrict fund movements (e.g., prevent overdrafts):</p>
+									<pre>
+let mut op = cala.begin_operation().await?;
+let account = cala.accounts().create_in_op(&mut op, new_account).await?;
+op.commit().await?;																		  
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Outbox for Event Tracking</h4>
+								<p>Listen to ledger events (e.g., account creation):</p>
+									<pre>
+let mut stream = cala
+.register_outbox_listener(Some(EventSequence::BEGIN))
+.await?;
+while let Some(event) = stream.next().await {
+println!("{}", serde_json::to_string_pretty(&event).expect("serde"));
+}
+																											
+</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Demo Commands</h4>
+								<p>Setup</p>
+									<pre>
+direnv reload
+docker compose up -d
+</pre>
+							</div>
+
+
+<div class="row-6 row-12-mobilep">
+			<p>Create Accounts:</p>
+					<pre>
+demo create-account "Alice"
+</pre>
+							</div>
+
+							
+<div class="row-6 row-12-mobilep">
+			<p>Trasactions:</p>
+					<pre>
+demo deposit "Alice" 1000
+demo transfer "Alice" "Bob" 200
+demo withdraw "Alice" 100
+</pre>
+							</div>
+
+
+							<div class="row-6 row-12-mobilep">
+								<p>Trasactions:</p>
+										<pre>
+demo deposit "Alice" 1000
+demo transfer "Alice" "Bob" 200
+demo withdraw "Alice" 100
+					</pre>
+												</div>
+												<div class="row-6 row-12-mobilep">
+													<p>View Balances:</p>
+															<pre>
+demo balance "Alice"
+
+										</pre>
+																	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+					
+				</section>
+
+				
+
+			<!-- Footer -->
+			<!-- Footer -->
+			<footer id="footer">
+				<ul class="icons">
+					<li><a href="https://t.me/Chrisart23" class="icon brands fa-telegram"><span class="label">Telegram</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy;All rights reserved 2024.</li><li>Design: Cubo+ Student Christopher Arteaga. </li>
+				</ul>
+			</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

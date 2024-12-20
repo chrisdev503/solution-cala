@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<!--
+	Alpha by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Cala Software Solution</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" href="./images/code.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1><a href="index.html">Technical blog </a>for Cala</h1>
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="#" class="icon solid fa-angle-down">Cala</a>
+								<ul>
+									<li><a href="generic.html">What does Cala mean?</a></li>
+									<li><a href="./solution.html">Solution</a></li>
+									<li><a href="elements.html">FAQs</a></li>
+									<li>
+										<a href="#">Resources</a>
+										<ul>
+											<li><a href="https://docs.rs/cala-ledger/latest/cala_ledger/" target="_blank" rel="noopener noreferrer">Cala ledger Doc</a></li>
+											<li><a href="https://cala.sh/api-reference.html#introduction" target="_blank" rel="noopener noreferrer">Cala API</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="./index.html#apartado-especifico" class="button">Sign Up</a></li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<section id="main" class="container">
+					<header>
+						<h2>Introduction about Cala</h2>
+						<p>It's a piece of cake.</p>
+					</header>
+					<div class="box">
+						<span class="image featured"><img src="images/rust-2.png" alt="" /></span>
+						<h3>Definition</h3>
+						<p>Cala is a powerful tool that can revolutionize your double-entry bookkeeping. It's designed to make financial accounting more accurate and efficient. This tutorial will guide you through the process of integrating Cala into your financial system, offering practical examples, code snippets, and tips to help you overcome any challenges. <span class="bold">Key features:</span> Double-entry bookkeeping, secure data storage, efficient transaction management, and robust capabilities for handling large volumes of financial data.<br>
+							<span class="bold">Benefits:</span> Increased accuracy in financial records and improved operational efficiency in accounting.</p></p>
+						<div class="row">
+							<div class="row-6 row-12-mobilep">
+								<h3>Pre-integration preparations:</h3>
+								<p>Prerequisites:
+									A configured development environment (Node.js, Python, or PHP).
+									Access credentials for Cala APIs.
+									Initial setup:
+									Obtain the technical documentation from the Cala developer portal.
+									Verify access privileges to existing financial systems.</p>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h3>Step-by-step guide to integrating Cala:</h3>
+								<p>Adipiscing faucibus nunc placerat. Tempus adipiscing turpis non blandit accumsan eget lacinia nunc integer interdum amet aliquam ut orci non col ut ut praesent. Semper amet interdum mi. Phasellus enim laoreet ac ac commodo faucibus faucibus. Curae lorem ipsum adipiscing ac. Vivamus ornare laoreet odio vis praesent.</p>
+							</div>
+
+							<div class="row-6 row-12-mobilep">
+								<h4>Step 1: Configure API credentials</h4>
+								<p>The specific command might vary depending on the programming language or shell being used. For example, in Python, you might use environment variables or configuration files.</p>
+									<pre>
+# Example of API configuration
+export CALA_API_KEY="your_key_api"
+										
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Step 2: Connect Cala to your database</h4>
+								<p>Note: The specific function names and arguments might differ slightly based on the Cala SDK implementation. Also, ensure that "your_key_api" and "name_data_base" are replaced with the actual API key and database name.</p>
+									<pre>
+import cala_sdk
+cala = cala_sdk.Client(api_key="your_key_api")
+cala.connect_to_database("name_data_base")                                                              
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Step 3: Configure the general ledger</h4>
+								<p>Note: The specific account names and types will depend on your accounting system. Ensure that the JSON format is correct and that the account names are translated accurately.</p>
+									<pre>
+{
+"accounts": [
+{"name": "Asset", "type": "asset"},
+{"name": "Liability", "type": "liability"}
+	]
+}							  
+	</pre>
+							</div>
+							<div class="row-6 row-12-mobilep">
+								<h4>Step 4: Implement a Basic Transaction</h4>
+									<pre>
+cala.record_transaction(debit="Activo", credit="Pasivo", amount=1000)		                        </pre>
+							</div>
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Footer -->
+				<!-- Footer -->
+				<footer id="footer">
+					<ul class="icons">
+						<li><a href="https://t.me/Chrisart23" class="icon brands fa-telegram"><span class="label">Telegram</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy;All rights reserved 2024.</li><li>Design: Cubo+ Student Christopher Arteaga. </li>
+					</ul>
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
